@@ -403,7 +403,11 @@ $(document).ready(function () {
   const cashInBox = $('.cash-in-box')
   cashInBox.click(() => {
     cashInBox.addClass('switch-screen')
-    cashInBox.on('animationend', () => buttonPressed('start'))
+
+    cashInBox.on('animationend', () => {
+      return buttonPressed('start', {cryptoCode: currentCryptoCode, direction: 'cashIn'})
+    })
+
     setTimeout(() => {
       cashInBox.removeClass('switch-screen')
     }, 1000)
@@ -412,7 +416,11 @@ $(document).ready(function () {
   const cashOutBox = $('.cash-out-box')
   cashOutBox.click(() => {
     cashOutBox.addClass('switch-screen')
-    cashOutBox.on('animationend', () => buttonPressed('startFiat'))
+
+    cashOutBox.on('animationend', () => {
+      return buttonPressed('start', {cryptoCode: currentCryptoCode, direction: 'cashOut'})
+    })
+
     setTimeout(() => {
       cashInBox.removeClass('switch-screen')
     }, 1000)

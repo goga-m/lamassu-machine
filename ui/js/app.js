@@ -408,9 +408,11 @@ $(document).ready(function () {
   var cashInBox = $('.cash-in-box');
   cashInBox.click(function () {
     cashInBox.addClass('switch-screen');
+
     cashInBox.on('animationend', function () {
-      return buttonPressed('start');
+      return buttonPressed('start', { cryptoCode: currentCryptoCode, direction: 'cashIn' });
     });
+
     setTimeout(function () {
       cashInBox.removeClass('switch-screen');
     }, 1000);
@@ -419,9 +421,11 @@ $(document).ready(function () {
   var cashOutBox = $('.cash-out-box');
   cashOutBox.click(function () {
     cashOutBox.addClass('switch-screen');
+
     cashOutBox.on('animationend', function () {
-      return buttonPressed('startFiat');
+      return buttonPressed('start', { cryptoCode: currentCryptoCode, direction: 'cashOut' });
     });
+
     setTimeout(function () {
       cashInBox.removeClass('switch-screen');
     }, 1000);
