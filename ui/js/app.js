@@ -1,4 +1,4 @@
-/* globals $, WebSocket, Audio, locales, Keyboard, Keypad, Jed, BigNumber, PORT */
+/* globals $, WebSocket, Audio, locales, Keyboard, Keypad, Jed, BigNumber, PORT, Origami */
 'use strict';
 
 console.log('DEBUG11');
@@ -48,6 +48,7 @@ var previousState = null;
 var onSendOnly = false;
 var buttonActive = true;
 var cassettes = null;
+var currentCryptoCode = null;
 
 var BRANDON = ['ca', 'cs', 'da', 'de', 'en', 'es', 'et', 'fi', 'fr', 'hr', 'hu', 'it', 'lt', 'nb', 'nl', 'pl', 'pt', 'ro', 'sl', 'sv', 'tr'];
 
@@ -223,9 +224,10 @@ function processData(data) {
 
 function chooseCoin(coins) {
   $('.crypto-buttons').empty();
+  currentCryptoCode = coins[0].cryptoCode;
   coins.forEach(function (coin) {
-    var activeClass = coin.cryptoCode === 'BTC' ? 'choose-coin-button-active' : '';
-    var el = '<div class="choose-coin-button coin-' + coin.cryptoCode.toLowerCase() + ' ' + activeClass + '" data-coin="' + coin.cryptoCode + '">' + coin.display + '</div>';
+    var activeClass = coin.cryptoCode === currentCryptoCode ? 'choose-coin-button-active' : '';
+    var el = '<div class="choose-coin-button coin-' + coin.cryptoCode.toLowerCase() + ' ' + activeClass + '" data-crypto-code="' + coin.cryptoCode + '">' + coin.display + '</div>';
     $('.crypto-buttons').append(el);
   });
   setState('choose_coin');
@@ -234,6 +236,13 @@ function chooseCoin(coins) {
 function switchCoin(coin) {
   var cashIn = $('.cash-in');
   var cashOut = $('.cash-out');
+  var cryptoCode = coin.cryptoCode;
+
+  if (currentCryptoCode === cryptoCode) return;
+
+  $('.coin-' + currentCryptoCode.toLowerCase()).removeClass('choose-coin-button-active');
+  $('.coin-' + cryptoCode.toLowerCase()).addClass('choose-coin-button-active');
+  currentCryptoCode = cryptoCode;
 
   cashIn.addClass('crypto-switch');
   setTimeout(function () {
@@ -255,8 +264,11 @@ function switchCoin(coin) {
 }
 
 $(document).ready(function () {
+  var attachFastClick = Origami.fastclick;
+  attachFastClick(document.body
+
   // Matt's anti-drag hack
-  window.onclick = window.oncontextmenu = window.onmousedown = window.onmousemove = window.onmouseup = function () {
+  );window.onclick = window.oncontextmenu = window.onmousedown = window.onmousemove = window.onmouseup = function () {
     return false;
   };
 
@@ -386,6 +398,12 @@ $(document).ready(function () {
 
   setupButton('one-way-change-language-button', 'changeLanguage');
   setupButton('two-way-change-language-button', 'changeLanguage');
+
+  $('.crypto-buttons').click(function (event) {
+    var el = $(event.target);
+    var coin = { cryptoCode: el.data('cryptoCode'), display: el.text() };
+    switchCoin(coin);
+  });
 
   var lastTouch = null;
 

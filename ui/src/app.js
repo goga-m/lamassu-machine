@@ -1,4 +1,4 @@
-/* globals $, WebSocket, Audio, locales, Keyboard, Keypad, Jed, BigNumber, PORT */
+/* globals $, WebSocket, Audio, locales, Keyboard, Keypad, Jed, BigNumber, PORT, Origami */
 'use strict'
 
 console.log('DEBUG11')
@@ -48,6 +48,7 @@ var previousState = null
 var onSendOnly = false
 var buttonActive = true
 var cassettes = null
+let currentCryptoCode = null
 
 var BRANDON = ['ca', 'cs', 'da', 'de', 'en', 'es', 'et', 'fi', 'fr', 'hr',
 'hu', 'it', 'lt', 'nb', 'nl', 'pl', 'pt', 'ro', 'sl', 'sv', 'tr']
@@ -224,9 +225,10 @@ function processData (data) {
 
 function chooseCoin (coins) {
   $('.crypto-buttons').empty()
+  currentCryptoCode = coins[0].cryptoCode
   coins.forEach(function (coin) {
-    const activeClass = coin.cryptoCode === 'BTC' ? 'choose-coin-button-active' : ''
-    const el = `<div class="choose-coin-button coin-${coin.cryptoCode.toLowerCase()} ${activeClass}" data-coin="${coin.cryptoCode}">${coin.display}</div>`
+    const activeClass = coin.cryptoCode === currentCryptoCode ? 'choose-coin-button-active' : ''
+    const el = `<div class="choose-coin-button coin-${coin.cryptoCode.toLowerCase()} ${activeClass}" data-crypto-code="${coin.cryptoCode}">${coin.display}</div>`
     $('.crypto-buttons').append(el)
   })
   setState('choose_coin')
@@ -235,6 +237,13 @@ function chooseCoin (coins) {
 function switchCoin (coin) {
   const cashIn = $('.cash-in')
   const cashOut = $('.cash-out')
+  const cryptoCode = coin.cryptoCode
+
+  if (currentCryptoCode === cryptoCode) return
+
+  $(`.coin-${currentCryptoCode.toLowerCase()}`).removeClass('choose-coin-button-active')
+  $(`.coin-${cryptoCode.toLowerCase()}`).addClass('choose-coin-button-active')
+  currentCryptoCode = cryptoCode
 
   cashIn.addClass('crypto-switch')
   setTimeout(() => cashIn.html(`Buy<br/>${coin.display}`), 100)
@@ -248,6 +257,9 @@ function switchCoin (coin) {
 }
 
 $(document).ready(function () {
+  const attachFastClick = Origami.fastclick
+  attachFastClick(document.body)
+
   // Matt's anti-drag hack
   window.onclick =
     window.oncontextmenu =
@@ -381,6 +393,12 @@ $(document).ready(function () {
 
   setupButton('one-way-change-language-button', 'changeLanguage')
   setupButton('two-way-change-language-button', 'changeLanguage')
+
+  $('.crypto-buttons').click(event => {
+    const el = $(event.target)
+    const coin = {cryptoCode: el.data('cryptoCode'), display: el.text()}
+    switchCoin(coin)
+  })
 
   var lastTouch = null
 

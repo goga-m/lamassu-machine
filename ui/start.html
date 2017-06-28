@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/main.css">
 
     <script>const PORT=8080</script>
+    <script src="js/vendor/fastclick.min.js"></script>
     <script src="js/vendor/jquery-3.2.1.slim.min.js"></script>
     <script src="js/vendor/kjua-0.1.1.min.js"></script>
     <script src="js/vendor/jquery.transit.min.js"></script>
@@ -1208,7 +1209,10 @@
       <section class="viewport choose_coin_state" data-tr-section="choose_coin">
         <section class="change-language">Change language</section>
         <section class="main">
-          <div class="cash-in crypto-button">Buy<br/>Bitcoin</div>
+          <section class="crypto-button-box">
+            <div class="crypto-button-ball"></div>
+            <div class="cash-in crypto-button">Buy<br/>Bitcoin</div>
+          </section>
           <div class="cash-out crypto-button">Sell<br/>Bitcoin</div>
         </section>
         <section class="choose-coin-buttons">

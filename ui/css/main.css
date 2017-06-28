@@ -56,6 +56,7 @@ body  { margin: 0;}
   width: 1280px;
   height: 800px;
   display: none;
+  overflow: hidden;
 }
 
 .viewport.invisible {
@@ -1715,24 +1716,6 @@ body  { margin: 0;}
   margin: 0;
 }
 
-.coin-btc {
-  top: 180px;
-  left: 176px;
-}
-
-.coin-btc:active {
-  background: url('../images/choose-btc-selected.png') no-repeat;
-}
-
-.coin-eth {
-  top: 189px;
-  left: 709px;
-}
-
-.coin-eth:active {
-  background: url('../images/choose-eth-selected.png') no-repeat;
-}
-
 .authorizing-note {
   opacity: 0.6;
   margin-top: 6em;
@@ -1762,7 +1745,8 @@ body  { margin: 0;}
   justify-content: space-around;
   align-items: center;
   height: 100%;
-  width: 100%
+  width: 100%;
+  position: relative;
 }
 
 .crypto-button {
@@ -1782,10 +1766,34 @@ body  { margin: 0;}
   line-height: 1.1;
 }
 
+.crypto-button-box {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.crypto-button-ball {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: #37E8D7;  /* amazonite */
+  opacity: 0;
+  z-index: 100;
+}
+
+.switch-screen .crypto-button-ball {
+  animation: fadeblow 0.5s ease-in 0.2s forwards;
+}
+
+.switch-screen .crypto-button {
+  animation: push-pop 0.3s ease-out;
+}
+
 .crypto-switch {
   animation:
-    pulse-out 0.2s ease-out,
-    pulse-in 0.2s ease-out 0.05s;
+    pulse-out 0.4s ease-in,
+    pulse-in 0.4s ease-in 0.1s;
 }
 
 .choose-coin-buttons {
@@ -1845,6 +1853,33 @@ body  { margin: 0;}
     transform: scale(.3);
     opacity: 0.3;
   }
+  90% {
+    transform: scale(1.1)
+  }
   100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes push-pop {
+  0% {
+  }
+  50% {
+    transform: scale(0.7);
+  }
+  80% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeblow {
+  0% {
+  }
+  100% {
+    opacity: 0.95;
+    transform: scale(15);
   }
 }
