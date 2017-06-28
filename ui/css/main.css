@@ -1777,9 +1777,16 @@ body  { margin: 0;}
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  background-color: #37E8D7;  /* amazonite */
   opacity: 0;
   z-index: 100;
+}
+
+.cash-in-box .crypto-button-ball {
+  background-color: #37E8D7;  /* amazonite */
+}
+
+.cash-out-box .crypto-button-ball {
+  background-color: #0e4160;   /* cobalt */
 }
 
 .switch-screen .crypto-button-ball {

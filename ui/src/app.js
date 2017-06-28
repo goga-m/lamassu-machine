@@ -400,6 +400,24 @@ $(document).ready(function () {
     switchCoin(coin)
   })
 
+  const cashInBox = $('.cash-in-box')
+  cashInBox.click(() => {
+    cashInBox.addClass('switch-screen')
+    cashInBox.on('animationend', () => buttonPressed('start'))
+    setTimeout(() => {
+      cashInBox.removeClass('switch-screen')
+    }, 1000)
+  })
+
+  const cashOutBox = $('.cash-out-box')
+  cashOutBox.click(() => {
+    cashOutBox.addClass('switch-screen')
+    cashOutBox.on('animationend', () => buttonPressed('startFiat'))
+    setTimeout(() => {
+      cashInBox.removeClass('switch-screen')
+    }, 1000)
+  })
+
   var lastTouch = null
 
   var languageButtons = document.getElementById('languages')

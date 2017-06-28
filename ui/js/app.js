@@ -405,6 +405,28 @@ $(document).ready(function () {
     switchCoin(coin);
   });
 
+  var cashInBox = $('.cash-in-box');
+  cashInBox.click(function () {
+    cashInBox.addClass('switch-screen');
+    cashInBox.on('animationend', function () {
+      return buttonPressed('start');
+    });
+    setTimeout(function () {
+      cashInBox.removeClass('switch-screen');
+    }, 1000);
+  });
+
+  var cashOutBox = $('.cash-out-box');
+  cashOutBox.click(function () {
+    cashOutBox.addClass('switch-screen');
+    cashOutBox.on('animationend', function () {
+      return buttonPressed('startFiat');
+    });
+    setTimeout(function () {
+      cashInBox.removeClass('switch-screen');
+    }, 1000);
+  });
+
   var lastTouch = null;
 
   var languageButtons = document.getElementById('languages');
