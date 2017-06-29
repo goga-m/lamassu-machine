@@ -214,14 +214,20 @@ function processData(data) {
       setState('restart');
       break;
     case 'chooseCoin':
-      chooseCoin(data.coins);
+      chooseCoin(data.coins, data.twoWayMode);
       break;
     default:
       if (data.action) setState(window.snakecase(data.action));
   }
 }
 
-function chooseCoin(coins) {
+function chooseCoin(coins, twoWayMode) {
+  if (twoWayMode) {
+    $('.choose_coin_state').removeClass('choose-coin-cash-in').addClass('choose-coin-two-way');
+  } else {
+    $('.choose_coin_state').removeClass('choose-coin-two-way').addClass('choose-coin-cash-in');
+  }
+
   var defaultCoin = coins[0];
 
   currentCryptoCode = defaultCoin.cryptoCode;

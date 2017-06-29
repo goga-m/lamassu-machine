@@ -1710,10 +1710,6 @@ body  { margin: 0;}
   margin-bottom: 3em;
 }
 
-.choose_coin_state {
-  background-image: url('../images/background-doublecircle.svg');
-}
-
 .coin {
   width: 403px;
   height: 403px;
@@ -1743,6 +1739,18 @@ body  { margin: 0;}
   font-weight: bold;
   font-size: 130%;
   background-position: left;
+}
+
+.choose-coin-two-way {
+  background-image: url('../images/background-doublecircle.svg');
+}
+
+.choose-coin-cash-in {
+  background-image: url('../images/background-singlecircle.svg');
+}
+
+.choose-coin-cash-in .cash-out-box, .choose-coin-cash-in .coin-redeem {
+  display: none;
 }
 
 .choose_coin_state .main {
