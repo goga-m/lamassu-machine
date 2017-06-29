@@ -1369,12 +1369,22 @@ body  { margin: 0;}
   position: absolute;
   top: 212px;
   left: 848px;
+  background-color: #fff;
+  width: 330;
+  height: 330;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .qr-code-fiat-receipt {
   position: absolute;
   top: 212px;
   left: 848px;
+  background-color: #fff;
+  width: 330;
+  height: 330;
+  border-radius: 10px;
+  padding: 10px;
 }
 
 .deposit_state .send-notice {

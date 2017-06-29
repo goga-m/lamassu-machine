@@ -1047,7 +1047,7 @@ function setDepositAddress(tx, url) {
   $('.deposit_state .send-notice .crypto-address').text(tx.toAddress);
   $('.deposit_state .send-notice').show();
 
-  qrize(url, $('#qr-code-deposit'), 275);
+  qrize(url, $('#qr-code-deposit'), 330);
 }
 
 function deposit(tx) {
@@ -1075,7 +1075,7 @@ function fiatReceipt(tx) {
   $('.fiat_receipt_state .fiat .js-amount').text(tx.fiat);
   $('.fiat_receipt_state .sent-coins .crypto-address').text(tx.toAddress);
 
-  qrize(tx.sessionId, $('#qr-code-fiat-receipt'), 275);
+  qrize(tx.sessionId, $('#qr-code-fiat-receipt'), 330);
   setState('fiat_receipt');
 }
 
@@ -1090,7 +1090,7 @@ function fiatComplete(tx) {
   $('.fiat_complete_state .fiat .js-amount').text(tx.fiat);
   $('.fiat_complete_state .sent-coins .crypto-address').text(tx.toAddress);
 
-  qrize(tx.sessionId, $('#qr-code-fiat-complete'), 275);
+  qrize(tx.sessionId, $('#qr-code-fiat-complete'), 330);
 
   setState('fiat_complete');
 }
