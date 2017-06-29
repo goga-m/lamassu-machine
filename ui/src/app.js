@@ -404,9 +404,7 @@ $(document).ready(function () {
   cashInBox.click(() => {
     cashInBox.addClass('switch-screen')
 
-    cashInBox.on('animationend', () => {
-      return buttonPressed('start', {cryptoCode: currentCryptoCode, direction: 'cashIn'})
-    })
+    setTimeout(() => buttonPressed('start', {cryptoCode: currentCryptoCode, direction: 'cashIn'}), 600)
 
     setTimeout(() => {
       cashInBox.removeClass('switch-screen')
@@ -417,9 +415,7 @@ $(document).ready(function () {
   cashOutBox.click(() => {
     cashOutBox.addClass('switch-screen')
 
-    cashOutBox.on('animationend', () => {
-      return buttonPressed('start', {cryptoCode: currentCryptoCode, direction: 'cashOut'})
-    })
+    setTimeout(() => buttonPressed('start', {cryptoCode: currentCryptoCode, direction: 'cashOut'}), 600)
 
     setTimeout(() => {
       cashInBox.removeClass('switch-screen')
@@ -515,8 +511,8 @@ function setScreen (newScreen, oldScreen) {
 
   var newView = $('.' + newScreen + '_state')
 
-  $('.viewport').css({'display': 'none'})
-  newView.css({'display': 'block'})
+  $('.viewport').removeClass('viewport-active')
+  newView.addClass('viewport-active')
 }
 
 function setState (state, delay) {
