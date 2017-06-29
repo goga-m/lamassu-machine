@@ -224,13 +224,23 @@ function processData (data) {
 }
 
 function chooseCoin (coins) {
+  const defaultCoin = coins[0]
+
+  currentCryptoCode = defaultCoin.cryptoCode
+
+  const cashIn = $('.cash-in')
+  const cashOut = $('.cash-out')
+
+  cashIn.html(`Buy<br/>${defaultCoin.display}`)
+  cashOut.html(`Sell<br/>${defaultCoin.display}`)
+
   $('.crypto-buttons').empty()
-  currentCryptoCode = coins[0].cryptoCode
   coins.forEach(function (coin) {
     const activeClass = coin.cryptoCode === currentCryptoCode ? 'choose-coin-button-active' : ''
     const el = `<div class="choose-coin-button coin-${coin.cryptoCode.toLowerCase()} ${activeClass}" data-crypto-code="${coin.cryptoCode}">${coin.display}</div>`
     $('.crypto-buttons').append(el)
   })
+
   setState('choose_coin')
 }
 

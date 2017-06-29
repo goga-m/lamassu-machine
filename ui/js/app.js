@@ -223,13 +223,23 @@ function processData(data) {
 }
 
 function chooseCoin(coins) {
+  var defaultCoin = coins[0];
+
+  currentCryptoCode = defaultCoin.cryptoCode;
+
+  var cashIn = $('.cash-in');
+  var cashOut = $('.cash-out');
+
+  cashIn.html('Buy<br/>' + defaultCoin.display);
+  cashOut.html('Sell<br/>' + defaultCoin.display);
+
   $('.crypto-buttons').empty();
-  currentCryptoCode = coins[0].cryptoCode;
   coins.forEach(function (coin) {
     var activeClass = coin.cryptoCode === currentCryptoCode ? 'choose-coin-button-active' : '';
     var el = '<div class="choose-coin-button coin-' + coin.cryptoCode.toLowerCase() + ' ' + activeClass + '" data-crypto-code="' + coin.cryptoCode + '">' + coin.display + '</div>';
     $('.crypto-buttons').append(el);
   });
+
   setState('choose_coin');
 }
 
