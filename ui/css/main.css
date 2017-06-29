@@ -1847,8 +1847,9 @@ body  { margin: 0;}
   color: #0e4160;
 }
 
-#coin-redeem:active {
-  background-color: #2ec1b2;
+#coin-redeem-button:active {
+  background-color: #0e4160;
+  color: #ffffff;
 }
 
 .cash-in-fade {
@@ -1858,10 +1859,33 @@ body  { margin: 0;}
   background-color: #37E8D7;
   opacity: 1;
   z-index: 100;
+  pointer-events: none;
 }
 
 .viewport-active .cash-in-fade {
   animation: fade-in 0.7s forwards;
+}
+
+.cash-out-fade {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #0e4160;
+  opacity: 1;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.viewport-active .cash-out-fade {
+  animation: fade-in 0.7s forwards;
+}
+
+.qr-code {
+  width: 300;
+  height: 300;
+  border-radius: 10px;
+  background-color: #ffffff;
+  padding: 10px;
 }
 
 @keyframes pulse-out {

@@ -1,4 +1,4 @@
-/* globals $, WebSocket, Audio, locales, Keyboard, Keypad, Jed, BigNumber, PORT, Origami */
+/* globals $, WebSocket, Audio, locales, Keyboard, Keypad, Jed, BigNumber, PORT, Origami, kjua */
 'use strict'
 
 console.log('DEBUG11')
@@ -105,7 +105,6 @@ function processData (data) {
   if (data.sent && data.total) setPartialSend(data.sent, data.total)
   if (data.readingBill) readingBill(data.readingBill)
   if (data.cryptoCode) translateCoin(data.cryptoCode)
-  if (data.coins) handleCoins(data.coins, data.twoWayMode)
   if (data.tx && data.tx.cashInFee) setFixedFee(data.tx.cashInFee)
 
   if (data.context) {
@@ -346,7 +345,6 @@ $(document).ready(function () {
 
   setupImmediateButton('wifiPassCancel', 'cancelWifiPass')
   setupImmediateButton('wifiListCancel', 'cancelWifiList')
-  setupImmediateButton('dual-idle-cancel', 'completed')
   setupImmediateButton('scanCancel', 'cancelScan')
   setupImmediateButton('completed_viewport', 'completed')
   setupImmediateButton('withdraw_failure_viewport', 'completed')
@@ -360,9 +358,6 @@ $(document).ready(function () {
   setupButton('pairing-scan', 'pairingScan')
   setupButton('pairing-scan-cancel', 'pairingScanCancel')
   setupButton('pairing-error-ok', 'pairingScanCancel')
-  setupButton('cash-in', 'start')
-  setupButton('one-way-cash-in', 'start')
-  setupButton('want_cash', 'startFiat')
   setupButton('cash-out-button', 'cashOut')
 
   // var button = document.getElementById('js-coin-selection')
@@ -395,20 +390,17 @@ $(document).ready(function () {
   setupButton('network-down-ok', 'idle')
   setupButton('fiat-transaction-error-ok', 'fiatReceipt')
 
-  setupButton('redeem-button', 'redeem')
-  setupButton('coin-redeem', 'redeem')
   setupButton('unknown-phone-number-ok', 'idle')
   setupButton('unconfirmed-deposit-ok', 'idle')
   setupButton('wrong-dispenser-currency-ok', 'idle')
-
-  setupButton('one-way-change-language-button', 'changeLanguage')
-  setupButton('two-way-change-language-button', 'changeLanguage')
 
   $('.crypto-buttons').click(event => {
     const el = $(event.target)
     const coin = {cryptoCode: el.data('cryptoCode'), display: el.text()}
     switchCoin(coin)
   })
+
+  $('.coin-redeem-button').click(() => buttonPressed('redeem'))
 
   const cashInBox = $('.cash-in-box')
   cashInBox.click(() => {
@@ -428,7 +420,7 @@ $(document).ready(function () {
     setTimeout(() => buttonPressed('start', {cryptoCode: currentCryptoCode, direction: 'cashOut'}), 600)
 
     setTimeout(() => {
-      cashInBox.removeClass('switch-screen')
+      cashOutBox.removeClass('switch-screen')
     }, 1000)
   })
 
@@ -852,14 +844,21 @@ function setExchangeRate (_rates) {
   $('.js-crypto-display-units').text(displayCode)
 }
 
-function setTxId (txId) {
-  $('.qr-code').empty()
-  $('.qr-code').qrcode({
+function qrize (text, target, size) {
+  const el = kjua({
+    text,
+    size,
     render: 'canvas',
-    width: 225,
-    height: 225,
-    text: txId
+    rounded: 50,
+    quiet: 1
   })
+
+  target.empty().append(el)
+}
+
+function setTxId (txId) {
+  qrize(txId, $('#cash-in-qr-code'), 300)
+  qrize(txId, $('cash-in-fail-qr-code'), 300)
 }
 
 function setBuyerAddress (address) {
@@ -1058,13 +1057,7 @@ function setDepositAddress (tx, url) {
   $('.deposit_state .send-notice .crypto-address').text(tx.toAddress)
   $('.deposit_state .send-notice').show()
 
-  $('#qr-code-deposit').empty()
-  $('#qr-code-deposit').qrcode({
-    render: 'canvas',
-    width: 275,
-    height: 275,
-    text: url
-  })
+  qrize(url, $('#qr-code-deposit'), 275)
 }
 
 function deposit (tx) {
@@ -1092,14 +1085,7 @@ function fiatReceipt (tx) {
   $('.fiat_receipt_state .fiat .js-amount').text(tx.fiat)
   $('.fiat_receipt_state .sent-coins .crypto-address').text(tx.toAddress)
 
-  $('#qr-code-fiat-receipt').empty()
-  $('#qr-code-fiat-receipt').qrcode({
-    render: 'canvas',
-    width: 275,
-    height: 275,
-    text: tx.sessionId
-  })
-
+  qrize(tx.sessionId, $('#qr-code-fiat-receipt'), 275)
   setState('fiat_receipt')
 }
 
@@ -1114,30 +1100,9 @@ function fiatComplete (tx) {
   $('.fiat_complete_state .fiat .js-amount').text(tx.fiat)
   $('.fiat_complete_state .sent-coins .crypto-address').text(tx.toAddress)
 
-  $('#qr-code-fiat-complete').empty()
-  $('#qr-code-fiat-complete').qrcode({
-    render: 'canvas',
-    width: 275,
-    height: 275,
-    text: tx.sessionId
-  })
+  qrize(tx.sessionId, $('#qr-code-fiat-complete'), 275)
 
   setState('fiat_complete')
-}
-
-function handleCoins (coins, twoWayMode) {
-  const cryptoCodes = Object.keys(coins)
-  if (cryptoCodes.length === 1) {
-    $('#dual-idle-cancel').hide()
-    $('#redeem-button').show()
-    return
-  }
-
-  if (twoWayMode) $('#coin-redeem').show()
-  else $('#coin-redeem').hide()
-
-  $('#dual-idle-cancel').show()
-  $('#redeem-button').hide()
 }
 
 function initDebug () {
