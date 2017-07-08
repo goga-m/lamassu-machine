@@ -235,8 +235,8 @@ function chooseCoin(coins, twoWayMode) {
   var cashIn = $('.cash-in');
   var cashOut = $('.cash-out');
 
-  cashIn.html('Buy<br/>' + defaultCoin.display);
-  cashOut.html('Sell<br/>' + defaultCoin.display);
+  cashIn.html(tc('cash-in', 'Buy<br/>%s', defaultCoin.display));
+  cashOut.html(tc('cash-out', 'Sell<br/>%s', defaultCoin.display));
 
   $('.crypto-buttons').empty();
   coins.forEach(function (coin) {
@@ -261,7 +261,7 @@ function switchCoin(coin) {
 
   cashIn.addClass('crypto-switch');
   setTimeout(function () {
-    return cashIn.html('Buy<br/>' + coin.display);
+    return cashIn.html(tc('cash-in', 'Buy<br/>%s', coin.display));
   }, 100);
   setTimeout(function () {
     return cashIn.removeClass('crypto-switch');
@@ -270,7 +270,7 @@ function switchCoin(coin) {
   setTimeout(function () {
     cashOut.addClass('crypto-switch');
     setTimeout(function () {
-      return cashOut.html('Sell<br/>' + coin.display);
+      return cashOut.html(tc('cash-out', 'Sell<br/>%s', coin.display));
     }, 100);
     setTimeout(function () {
       return cashOut.removeClass('crypto-switch');

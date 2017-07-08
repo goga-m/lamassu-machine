@@ -236,8 +236,8 @@ function chooseCoin (coins, twoWayMode) {
   const cashIn = $('.cash-in')
   const cashOut = $('.cash-out')
 
-  cashIn.html(`Buy<br/>${defaultCoin.display}`)
-  cashOut.html(`Sell<br/>${defaultCoin.display}`)
+  cashIn.html(tc('cash-in', 'Buy<br/>%s', defaultCoin.display))
+  cashOut.html(tc('cash-out', 'Sell<br/>%s', defaultCoin.display))
 
   $('.crypto-buttons').empty()
   coins.forEach(function (coin) {
@@ -261,12 +261,12 @@ function switchCoin (coin) {
   currentCryptoCode = cryptoCode
 
   cashIn.addClass('crypto-switch')
-  setTimeout(() => cashIn.html(`Buy<br/>${coin.display}`), 100)
+  setTimeout(() => cashIn.html(tc('cash-in', 'Buy<br/>%s', coin.display)), 100)
   setTimeout(() => cashIn.removeClass('crypto-switch'), 1000)
 
   setTimeout(() => {
     cashOut.addClass('crypto-switch')
-    setTimeout(() => cashOut.html(`Sell<br/>${coin.display}`), 100)
+    setTimeout(() => cashOut.html(tc('cash-out', 'Sell<br/>%s', coin.display)), 100)
     setTimeout(() => cashOut.removeClass('crypto-switch'), 1000)
   }, 80)
 }
@@ -944,7 +944,7 @@ function translateCoin (cryptoCode) {
   tc('coins-to-address', 'Your %s will be sent to:', cryptoCode)
 
   if (cryptoCode === 'ETH') {
-    tc('authorizing-note', 'This should take <strong>15 seconds</strong> on average.<br/>Occasionally, it will take over a minute.')
+    tc('authorizing-note', 'This should take <strong>about a minute</strong>.')
   }
 }
 
