@@ -1,3 +1,4 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 /* globals $, URLSearchParams, WebSocket, Audio, locales, Keyboard, Keypad, Jed, BigNumber, PORT, Origami, kjua */
 'use strict'
 
@@ -457,8 +458,6 @@ $(document).ready(function () {
   })
 
   $('.coin-redeem-button').click(() => buttonPressed('redeem'))
-  $('.sms-start-verification').click(() => buttonPressed('smsCompliance'))
-  $('.send-coins-sms').click(() => buttonPressed('finishBeforeSms'))
 
   const cashInBox = $('.cash-in-box')
   cashInBox.click(() => {
@@ -917,8 +916,6 @@ function qrize (text, target, size) {
 function setTxId (txId) {
   qrize(txId, $('#cash-in-qr-code'), 300)
   qrize(txId, $('#cash-in-fail-qr-code'), 300)
-  qrize(txId, $('#qr-code-fiat-receipt'), 330)
-  qrize(txId, $('#qr-code-fiat-complete'), 330)
 }
 
 function setBuyerAddress (address) {
@@ -1194,3 +1191,5 @@ function initDebug () {
     setState(SCREEN)
   }
 }
+
+},{}]},{},[1]);
